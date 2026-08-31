@@ -1,0 +1,26 @@
+# Environments
+.venv/
+__pycache__/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data downloads (PyG datasets)
+data/
+
+# Scratch training runs
+runs/scratch/
+
+# Notebook noise
+.ipynb_checkpoints/
+
+# Non-best checkpoints (only *_best.pt is committed)
+checkpoints/*
+!checkpoints/*_best.pt
+!checkpoints/.gitkeep
+
+# OS
+.DS_Store
