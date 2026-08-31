@@ -65,8 +65,9 @@ def train(
     best = max(results, key=lambda r: r.manifest.final_test_accuracy)
     bundle_path = checkpoint_dir / f"{cfg.dataset}_best.pt"
     save_checkpoint(best, graph, bundle_path)
+    std = statistics.stdev(accs) if len(accs) > 1 else 0.0
     typer.echo(
-        f"{cfg.dataset}: mean={statistics.mean(accs):.4f} std={statistics.stdev(accs):.4f} "
+        f"{cfg.dataset}: mean={statistics.mean(accs):.4f} std={std:.4f} "
         f"best_seed={best.manifest.seed} → {bundle_path}"
     )
 
@@ -91,11 +92,13 @@ def repro(
 ) -> None:
     """Deterministic end-to-end reproduction: train + evaluate AIFB and MUTAG,
     regenerate results/ and tables."""
+    # Called as plain functions: every typer.Option default must be passed
+    # explicitly (defaults are OptionInfo sentinels outside the CLI).
     for dataset in ["aifb", "mutag"]:
         typer.echo(f"=== {dataset}: train (final) ===")
-        train(configs_dir / f"{dataset}.yaml", final=True)
+        train(configs_dir / f"{dataset}.yaml", final=True, checkpoint_dir=Path("checkpoints"))
         typer.echo(f"=== {dataset}: evaluate ===")
-        evaluate(configs_dir / f"{dataset}.yaml")
+        evaluate(configs_dir / f"{dataset}.yaml", results_dir=Path("results"))
     _generate_tables()
 
 

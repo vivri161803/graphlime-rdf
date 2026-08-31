@@ -109,8 +109,10 @@ explain_examples("mutag")
 #
 # Each block is one test entity: the model's prediction with its confidence,
 # the neighbourhood size GraphLIME sampled, and the three predicates with the
-# largest non-negative HSIC-Lasso weights β. A β of 0.30+ concentrated on one
-# predicate means the local dependence between features and prediction runs
-# almost entirely through that predicate. Refused nodes (neighbourhood below
+# largest non-negative HSIC-Lasso weights β. A comparatively large β
+# concentrated on one predicate means the local dependence between features
+# and prediction runs mostly through that predicate; absolute magnitudes are
+# small because β is shared across a sparse solution over hundreds of
+# (p,o)-pair features. Refused nodes (neighbourhood below
 # `min_neighborhood`) are printed as refusals — they are counted in
 # `results/tables/refusals.md`, not hidden.

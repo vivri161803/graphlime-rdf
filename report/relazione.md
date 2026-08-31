@@ -100,24 +100,39 @@ reported, not asserted.
 
 ### Reading the results
 
-- **Accuracy.** The interpretable feature space costs little on these
-  benchmarks: MUTAG matches the paper's one-hot R-GCN; AIFB lands a few
-  points below it — the price of replacing free per-entity embeddings with
-  features that mean something.
-- **Fidelity.** Masking GraphLIME's top-k feature columns hurts the
-  prediction far more than masking random-k, at every k, on both datasets —
-  the explanations point at features the model actually uses. fidelity− near
-  zero at k = 10 means the top ten features essentially suffice to
-  reconstruct the prediction.
-- **Stability.** Explanations agree substantially across training seeds and
-  neighbourhood radii; agreement is naturally higher between hops 2 and 3
-  (nested neighbourhoods) than between 1 and 2.
+- **Accuracy.** The interpretable feature space is not a handicap on MUTAG —
+  the 5-seed mean *exceeds* the paper's one-hot R-GCN (0.732) — while AIFB
+  lands several points below its 0.958: AIFB's classes hinge on *which*
+  entity a person is connected to, exactly the information per-entity
+  embeddings encode for free and predicate counts deliberately discard.
+- **Fidelity.** For k ≤ 5, masking GraphLIME's top-k feature columns hurts
+  the prediction clearly more than masking random-k on both datasets — the
+  explanations point at features the model actually uses. At k = 10 on
+  MUTAG the comparison inverts: explanations there typically have fewer than
+  ten non-zero β, so the top-10 set pads with irrelevant columns while
+  random-10 already covers a fifth of MUTAG's 46 columns. fidelity− stays
+  high on AIFB at every k (≈ 0.7): no five features *suffice* — the model
+  spreads evidence across the neighbourhood's feature profile. On MUTAG,
+  keeping only the top-5 preserves the prediction markedly better than
+  keeping random-5 (0.199 vs 0.335 drop).
+- **Stability.** Across training seeds, explanations agree moderately
+  (Jaccard@5 ranging ≈ 0.17–0.75) — different seeds reach similar accuracy
+  through partially different feature use, which is precisely why the
+  per-seed comparison is reported. Across hops, agreement is near zero: the
+  1-hop and 2-hop neighbourhoods of an entity contain different node
+  populations, and the local HSIC estimate follows the sample, not the
+  target alone. Neighbourhood radius is the single most consequential
+  explanation hyperparameter in this setting.
 - **Feature-space sensitivity (A vs B) and baseline agreement** are reported
-  at the predicate level. Moderate A-vs-B agreement means the pair-level
-  space redistributes weight toward specific objects — expected, since B can
-  localise *which* neighbour matters, not just which predicate.
-- **Refusals** concentrate on literal-valued and peripheral nodes with tiny
-  neighbourhoods — a property of the data, reported rather than hidden.
+  at the predicate level. AIFB shows moderate A-vs-B overlap (0.28); MUTAG's
+  is essentially zero — the pair-level space shifts weight onto specific
+  `rdf:type` objects (atom types) that space A cannot express. Agreement
+  with GNNExplainer's attribute mask is limited (0.15 / 0.32): the two
+  methods answer related but different questions (kernel dependence vs
+  learned mask), and the disagreement itself is a reported finding.
+- **Refusals: none.** With 2-hop neighbourhoods every test entity of both
+  datasets clears `min_neighborhood = 10` — the refusal machinery is
+  exercised by the test suite and reported empty here.
 
 ## 6. Qualitative examples
 

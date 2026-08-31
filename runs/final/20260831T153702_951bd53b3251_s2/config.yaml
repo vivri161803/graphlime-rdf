@@ -9,6 +9,7 @@ feature_space:
 graphlime:
   hops: 2
   kernel: rbf
+  max_neighborhood: 200
   min_neighborhood: 10
   rho: 0.1
   sigma: null
