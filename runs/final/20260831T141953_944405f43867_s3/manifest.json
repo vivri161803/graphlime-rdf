@@ -1,0 +1,53 @@
+{
+  "run_id": "20260831T141953_944405f43867_s3",
+  "dataset": "mutag",
+  "seed": 3,
+  "git_commit": "3dadf6a",
+  "resolved_config": {
+    "dataset": "mutag",
+    "feature_space": {
+      "kind": "predicate",
+      "directions": [
+        "out",
+        "in"
+      ],
+      "binary": false,
+      "min_support": 5
+    },
+    "model": {
+      "hidden_dim": 32,
+      "num_bases": 30,
+      "dropout": 0.0
+    },
+    "training": {
+      "epochs": 200,
+      "lr": 0.01,
+      "weight_decay": 0.0,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "graphlime": {
+      "hops": 2,
+      "rho": 0.1,
+      "kernel": "rbf",
+      "sigma": null,
+      "min_neighborhood": 10,
+      "max_neighborhood": 200
+    }
+  },
+  "library_versions": {
+    "torch": "2.13.0",
+    "torch-geometric": "2.8.0.post1",
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "rdflib": "7.6.0"
+  },
+  "final_test_accuracy": 0.75,
+  "epochs": 200
+}
