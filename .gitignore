@@ -22,5 +22,13 @@ checkpoints/*
 !checkpoints/*_best.pt
 !checkpoints/.gitkeep
 
+# LaTeX build artifacts (the .tex and the built .pdf are committed)
+report/*.aux
+report/*.log
+report/*.nav
+report/*.out
+report/*.snm
+report/*.toc
+
 # OS
 .DS_Store

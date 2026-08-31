@@ -43,6 +43,11 @@ pdf:
         -V geometry:margin=2.5cm -V fontsize=11pt -V linkcolor=blue \
         -H pdf-preamble.tex
 
+# Slide deck (beamer/metropolis). Twice, so the outline resolves.
+slides:
+    cd report && pdflatex -interaction=nonstopmode -halt-on-error presentazione.tex
+    cd report && pdflatex -interaction=nonstopmode -halt-on-error presentazione.tex
+
 render:
     uv run python -m ipykernel install --user --name graphlime-rdf
     uv run jupytext --to ipynb --execute --set-kernel graphlime-rdf notebooks/qualitative.py -o notebooks/qualitative.ipynb
