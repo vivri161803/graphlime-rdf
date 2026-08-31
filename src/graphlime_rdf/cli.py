@@ -119,8 +119,8 @@ def tables() -> None:
 
 @app.command()
 def readme() -> None:
-    """Inject the current tables between the RESULTS markers of README.md and
-    report/relazione.md."""
+    """Inject the current tables between the RESULTS markers of
+    report/relazione.md (the README carries no numbers; ADR-010)."""
     from graphlime_rdf.reporting.readme import refresh_documents
 
     for path in refresh_documents():

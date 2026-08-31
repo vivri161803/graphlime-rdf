@@ -1,8 +1,11 @@
-"""Marker-based results injection for README.md and report/relazione.md (plan §9.4).
+"""Marker-based results injection for the report (plan §9.4, ADR-010).
 
 Prose outside the ``<!-- RESULTS:BEGIN -->`` / ``<!-- RESULTS:END -->`` markers
 is hand-written once; everything between them is regenerated from
 ``results/tables/*.md`` — numbers are never typed twice.
+
+README.md is deliberately not injected into: it is prose, repository map and
+usage only, and carries no numbers (ADR-010).
 """
 
 from __future__ import annotations
@@ -58,10 +61,9 @@ def inject(document: Path, block: str) -> None:
 
 
 def refresh_documents(repo_root: Path = Path()) -> list[Path]:
-    """Inject fresh tables into README.md and report/relazione.md."""
+    """Inject fresh tables into every document carrying the results markers."""
     tables_dir = repo_root / "results" / "tables"
     documents = [
-        (repo_root / "README.md", "results/figures"),
         (repo_root / "report" / "relazione.md", "../results/figures"),
     ]
     refreshed = []

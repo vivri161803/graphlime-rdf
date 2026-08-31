@@ -24,5 +24,6 @@ before the synthetic gate passes."
 - No magic numbers outside `src/graphlime_rdf/config.py` / `configs/*.yaml`.
 - Directory contract: `results/` = validated ExplanationRecords + tables +
   figures; `runs/` = training audit trail; `checkpoints/` = best weights only.
-- All numbers in README/report are generated from `results/*.jsonl` via
+- All numbers in the report are generated from `results/*.jsonl` via
   `cli.py tables` and injected between `<!-- RESULTS:BEGIN/END -->` markers.
+  The README carries no numbers at all (ADR-010).

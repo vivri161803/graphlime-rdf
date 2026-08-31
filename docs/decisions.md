@@ -87,3 +87,14 @@ Newest stable stack available via `uv` on this machine; all pins recorded in
 `uv.lock` and `docs/api-notes.md` Q6. CPU-only suffices for AIFB/MUTAG scale.
 `just render` installs the `graphlime-rdf` ipykernel spec (idempotent) so the
 notebook pipeline works headless from a fresh clone.
+
+## ADR-010 (2026-08-31) — README carries no numbers; results live in the report
+
+The README had duplicated every generated table and figure, which made it a
+second place for results to drift and buried the orientation material a reader
+actually needs from a landing page. It is now prose only: what the project
+does, where to find what, and how to run it, closing with links to
+`report/relazione.pdf` and `report/presentazione.pdf` plus the bibliography.
+`reporting/readme.py` therefore injects into `report/relazione.md` alone;
+`inject()` still raises on a document missing its markers, so the report can
+never silently stop being refreshed.

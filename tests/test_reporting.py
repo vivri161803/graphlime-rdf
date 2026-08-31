@@ -103,16 +103,19 @@ def test_refresh_documents_end_to_end(tmp_path: Path) -> None:
     tables_dir = results / "tables"
     tables_dir.mkdir(parents=True)
     (tables_dir / "main_results.md").write_text("| dataset |\n|---|\n| AIFB |\n")
-    (tmp_path / "README.md").write_text(f"# P\n{MARKER_BEGIN}\n{MARKER_END}\n")
+    readme = tmp_path / "README.md"
+    readme.write_text("# P\nprose only, no markers\n")
     report_dir = tmp_path / "report"
     report_dir.mkdir()
     (report_dir / "relazione.md").write_text(f"# R\n{MARKER_BEGIN}\n{MARKER_END}\n")
 
     refreshed = refresh_documents(tmp_path)
-    assert len(refreshed) == 2
-    readme_text = (tmp_path / "README.md").read_text()
-    assert "Classification accuracy" in readme_text
-    assert "| AIFB |" in readme_text
+    assert refreshed == [report_dir / "relazione.md"]
+    report_text = (report_dir / "relazione.md").read_text()
+    assert "Classification accuracy" in report_text
+    assert "| AIFB |" in report_text
+    # README carries no numbers and must be left untouched (ADR-010).
+    assert readme.read_text() == "# P\nprose only, no markers\n"
 
     block = build_results_block(tables_dir, "results/figures")
     assert "### Classification accuracy" in block

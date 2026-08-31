@@ -75,7 +75,7 @@ flowchart LR
     Y --> glime
     glime --> recs["ExplanationRecords<br/>results/*.jsonl"]
     recs --> tab["tables.py → results/tables/*.md"]
-    tab --> docs2["README.md + relazione.md<br/>(marker injection)"]
+    tab --> docs2["report/relazione.md<br/>(marker injection)"]
 ```
 
 Key invariant: the model input and the explanation space share **one
