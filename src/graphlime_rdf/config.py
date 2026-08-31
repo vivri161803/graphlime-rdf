@@ -38,6 +38,10 @@ class GraphLIMEConfig(BaseModel):
     kernel: Literal["rbf"] = "rbf"
     sigma: float | None = None  # None → median heuristic
     min_neighborhood: int = Field(10, ge=2)
+    # Hub nodes can have k-hop neighbourhoods of thousands of nodes; the HSIC
+    # Lasso design matrix has n² rows, so we subsample deterministically
+    # (seeded by the node id, target always kept) above this cap.
+    max_neighborhood: int = Field(200, ge=10)
     model_config = ConfigDict(frozen=True, extra="forbid")
 
 
@@ -85,6 +89,28 @@ class ExperimentConfig(BaseModel):
             yaml.safe_dump(self.model_dump(mode="json"), f, sort_keys=True)
 
 
+class SyntheticConfig(BaseModel):
+    """Ground-truth generator parameters (plan M6).
+
+    Label rule: class 1 ⟺ the entity has ``target_predicate``. Distractor
+    predicates co-occur with the target with probability ``distractor_strength``
+    (and appear on class-0 entities with 1 − strength) — correlated but not
+    causal. ``noise_rate`` flips that fraction of labels.
+    """
+
+    num_entities: int = Field(400, ge=20)
+    num_predicates: int = Field(10, ge=2)
+    target_predicate: int = Field(7, ge=0)
+    edge_prob: float = Field(0.5, gt=0, lt=1)
+    class_balance: float = Field(0.5, gt=0, lt=1)
+    noise_rate: float = Field(0.0, ge=0, lt=1)
+    num_distractors: int = Field(0, ge=0)
+    distractor_strength: float = Field(0.9, gt=0.5, lt=1)
+    train_fraction: float = Field(0.8, gt=0, lt=1)
+    seed: int = 0
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+
 class ExplanationRecord(BaseModel):
     """One validated row per explained node, written to ``results/*.jsonl``.
 
@@ -100,6 +126,64 @@ class ExplanationRecord(BaseModel):
     neighborhood_size: int
     top_features: list[tuple[str, float]]  # (human-readable name, beta)
     sparsity: float
+    seed: int
+    config_hash: str
+    git_commit: str
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+
+class RefusalRecord(BaseModel):
+    """One row per refused explanation — a finding, not an error (plan M5)."""
+
+    dataset: str
+    node_id: int
+    reason: str
+    neighborhood_size: int
+    seed: int
+    config_hash: str
+    git_commit: str
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+
+class FidelityRecord(BaseModel):
+    """Fidelity± at one k for one node, with the random-k control (plan M7)."""
+
+    dataset: str
+    node_id: int
+    k: int
+    fidelity_plus: float
+    fidelity_minus: float
+    random_plus: float
+    random_minus: float
+    seed: int
+    config_hash: str
+    git_commit: str
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+
+class StabilityRecord(BaseModel):
+    """Jaccard@k of top-k feature sets across a varied dimension (plan M7)."""
+
+    dataset: str
+    node_id: int
+    kind: Literal["seeds", "hops"]
+    variant_a: str
+    variant_b: str
+    k: int
+    jaccard: float
+    config_hash: str
+    git_commit: str
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+
+class AgreementRecord(BaseModel):
+    """Agreement between explainers / feature spaces at top-k (plan M7)."""
+
+    dataset: str
+    node_id: int
+    kind: Literal["feature_space", "baseline"]
+    k: int
+    jaccard: float
     seed: int
     config_hash: str
     git_commit: str
