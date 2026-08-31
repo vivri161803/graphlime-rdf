@@ -1,0 +1,22 @@
+dataset: synthetic
+feature_space:
+  kind: predicate
+  directions: [out]
+  binary: true
+  min_support: 1
+model:
+  hidden_dim: 16
+  num_bases: 8
+  dropout: 0.0
+training:
+  epochs: 100
+  lr: 0.01
+  weight_decay: 0.0
+  seeds: [0]
+graphlime:
+  hops: 2
+  rho: 0.1
+  kernel: rbf
+  sigma: null
+  min_neighborhood: 10
+  max_neighborhood: 200

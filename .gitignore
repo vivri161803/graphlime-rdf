@@ -8,8 +8,8 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Data downloads (PyG datasets)
-data/
+# Data downloads (PyG datasets) — anchored: only the repo-root data dir
+/data/
 
 # Scratch training runs
 runs/scratch/
