@@ -1,0 +1,26 @@
+% Preamble for `just pdf` (pandoc + xelatex) — see justfile.
+\usepackage{etoolbox}
+
+% Tables in the report are wide (per-seed accuracies, fidelity sweeps);
+% shrink them rather than let them overflow the text block.
+\AtBeginEnvironment{longtable}{\small}
+
+% Figures are generated at screen resolution: cap them at the text width.
+\setkeys{Gin}{width=\linewidth,keepaspectratio}
+
+% Keep section headings from stranding at the foot of a page.
+\usepackage[nobottomtitles*]{titlesec}
+
+% The report writes mathematical symbols as literal Unicode in prose. Rather
+% than depend on the text font covering them, route every such character to
+% the math font; the text font then only needs Latin and punctuation.
+\usepackage{newunicodechar}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{⟺}{\ensuremath{\Longleftrightarrow}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{₇}{\ensuremath{_7}}

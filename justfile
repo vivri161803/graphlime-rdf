@@ -33,6 +33,16 @@ tables:
 readme:
     uv run python -m graphlime_rdf.cli readme
 
+# PDF of the report. Needs pandoc + a TeX distribution providing xelatex.
+# Run `just readme` first if results/ changed: this typesets the .md as-is.
+pdf:
+    cd report && pandoc relazione.md -o relazione.pdf \
+        --pdf-engine=xelatex \
+        -V mainfont="Palatino" \
+        -V monofont="Menlo" -V monofontoptions="Scale=0.85" \
+        -V geometry:margin=2.5cm -V fontsize=11pt -V linkcolor=blue \
+        -H pdf-preamble.tex
+
 render:
     uv run python -m ipykernel install --user --name graphlime-rdf
     uv run jupytext --to ipynb --execute --set-kernel graphlime-rdf notebooks/qualitative.py -o notebooks/qualitative.ipynb
