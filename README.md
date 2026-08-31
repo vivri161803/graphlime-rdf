@@ -125,8 +125,18 @@ uv sync
 ```
 
 Reconstructs the exact pinned environment from `uv.lock` (Python 3.13, CPU-only
-torch and PyG). The task runner is [`just`](https://github.com/casey/just);
-every quality gate lives in the `justfile`.
+torch and PyG).
+
+Commands are run through [`just`](https://github.com/casey/just), a small
+command runner (`brew install just`). It is not a build system: a `justfile`
+recipe is just a named block of shell, so `just check` beats remembering
+`uv run pytest -m "not slow" --cov=src --cov-fail-under=85`, and the gates are
+identical for every contributor and for CI. To see them all with a one-line
+description each:
+
+```bash
+just --list
+```
 
 ### Everyday commands
 
