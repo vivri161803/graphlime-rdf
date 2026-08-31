@@ -1,8 +1,8 @@
 {
-  "run_id": "20260831T153601_951bd53b3251_s1",
+  "run_id": "20260831T154259_951bd53b3251_s1",
   "dataset": "aifb",
   "seed": 1,
-  "git_commit": "e2bcc37",
+  "git_commit": "b1d8ed5",
   "resolved_config": {
     "dataset": "aifb",
     "feature_space": {

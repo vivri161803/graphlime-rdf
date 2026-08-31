@@ -1,10 +1,10 @@
 {
-  "run_id": "20260831T141731_944405f43867_s0",
-  "dataset": "mutag",
-  "seed": 0,
-  "git_commit": "3dadf6a",
+  "run_id": "20260831T154458_951bd53b3251_s3",
+  "dataset": "aifb",
+  "seed": 3,
+  "git_commit": "b1d8ed5",
   "resolved_config": {
-    "dataset": "mutag",
+    "dataset": "aifb",
     "feature_space": {
       "kind": "predicate",
       "directions": [
@@ -48,6 +48,6 @@
     "scikit-learn": "1.9.0",
     "rdflib": "7.6.0"
   },
-  "final_test_accuracy": 0.779411792755127,
+  "final_test_accuracy": 0.8888888955116272,
   "epochs": 200
 }

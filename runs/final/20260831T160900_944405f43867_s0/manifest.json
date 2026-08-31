@@ -1,8 +1,8 @@
 {
-  "run_id": "20260831T141906_944405f43867_s2",
+  "run_id": "20260831T160900_944405f43867_s0",
   "dataset": "mutag",
-  "seed": 2,
-  "git_commit": "3dadf6a",
+  "seed": 0,
+  "git_commit": "b1d8ed5",
   "resolved_config": {
     "dataset": "mutag",
     "feature_space": {
@@ -48,6 +48,6 @@
     "scikit-learn": "1.9.0",
     "rdflib": "7.6.0"
   },
-  "final_test_accuracy": 0.7352941036224365,
+  "final_test_accuracy": 0.779411792755127,
   "epochs": 200
 }

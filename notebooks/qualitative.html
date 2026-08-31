@@ -7796,7 +7796,7 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6b02c489">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=404cffd2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7810,7 +7810,7 @@ toward Y"</em>. Everything shown here is recomputed live from
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=160714b4">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b9bec414">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7908,7 +7908,7 @@ toward Y"</em>. Everything shown here is recomputed live from
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=09584166">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d262eb5a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7919,7 +7919,7 @@ predicates around the person carried the decision.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c8365dfa">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e86292f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7980,7 +7980,7 @@ predicates around the person carried the decision.</p>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=543df692">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=64f4894e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7990,7 +7990,7 @@ predicates around the person carried the decision.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c965acbb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=29ee9ba3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8039,7 +8039,7 @@ MUTAG node 11792 — d112
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6567c5eb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c99d40a0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8047,9 +8047,11 @@ MUTAG node 11792 — d112
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Reading-the-output">Reading the output<a class="anchor-link" href="#Reading-the-output">¶</a></h2><p>Each block is one test entity: the model's prediction with its confidence,
 the neighbourhood size GraphLIME sampled, and the three predicates with the
-largest non-negative HSIC-Lasso weights β. A β of 0.30+ concentrated on one
-predicate means the local dependence between features and prediction runs
-almost entirely through that predicate. Refused nodes (neighbourhood below
+largest non-negative HSIC-Lasso weights β. A comparatively large β
+concentrated on one predicate means the local dependence between features
+and prediction runs mostly through that predicate; absolute magnitudes are
+small because β is shared across a sparse solution over hundreds of
+(p,o)-pair features. Refused nodes (neighbourhood below
 <code>min_neighborhood</code>) are printed as refusals — they are counted in
 <code>results/tables/refusals.md</code>, not hidden.</p>
 </div>
