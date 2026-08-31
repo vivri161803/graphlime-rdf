@@ -34,5 +34,6 @@ readme:
     uv run python -m graphlime_rdf.cli readme
 
 render:
-    uv run jupytext --to ipynb --execute notebooks/qualitative.py -o notebooks/qualitative.ipynb
+    uv run python -m ipykernel install --user --name graphlime-rdf
+    uv run jupytext --to ipynb --execute --set-kernel graphlime-rdf notebooks/qualitative.py -o notebooks/qualitative.ipynb
     uv run jupyter nbconvert --to html notebooks/qualitative.ipynb --output qualitative.html --output-dir notebooks
