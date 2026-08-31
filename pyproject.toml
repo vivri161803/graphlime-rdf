@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "GraphLIME (HSIC Lasso) explanations for R-GCN node classification on RDF knowledge graphs (AIFB, MUTAG)"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "torch>=2.6",
     "torch-geometric>=2.6",
@@ -44,7 +44,7 @@ packages = ["src/graphlime_rdf"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -52,9 +52,10 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 ignore = ["E501"]
 
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 strict = true
 disallow_untyped_defs = true
-python_version = "3.11"
+python_version = "3.13"
 mypy_path = "src"
 packages = ["graphlime_rdf"]
 

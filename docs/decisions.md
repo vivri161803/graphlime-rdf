@@ -29,6 +29,15 @@ defines fidelity as column masking on the interpretable feature matrix, so
 and `edge_type` forwarding stops being an issue outside the GNNExplainer
 baseline).
 
+## ADR-005 (2026-08-31) — Canonicalise blank nodes with rdflib RGDA1
+
+AIFB contains 152 blank nodes whose ids rdflib regenerates on every parse,
+which silently broke cross-process determinism (caught by
+`test_loader_deterministic_across_calls`). The loader now runs
+`rdflib.compare.to_canonical_graph` (content-derived RGDA1 labeling) whenever
+bnodes are present, verified byte-identical across `PYTHONHASHSEED` ∈
+{0, 1, 12345} via `scripts/hash_graph.py`.
+
 ## ADR-004 (2026-08-31) — Python 3.13.5, torch 2.13.0 (CPU), PyG 2.8.0.post1
 
 Newest stable stack available via `uv` on this machine; all pins recorded in
