@@ -9,7 +9,6 @@ canonical string forms, so the mapping is identical across processes and
 from __future__ import annotations
 
 import gzip
-import os.path as osp
 from dataclasses import dataclass, field
 from pathlib import Path
 
