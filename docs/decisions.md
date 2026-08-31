@@ -29,6 +29,17 @@ defines fidelity as column masking on the interpretable feature matrix, so
 and `edge_type` forwarding stops being an issue outside the GNNExplainer
 baseline).
 
+## ADR-006 (2026-08-31) — Hyperparameter choice from the fixed M3 grid
+
+Grid explored (scratch runs, `scripts/grid_m3.py` + `scripts/probe_m3.py`):
+directions {[out], [out,in]} × hidden {16, 32} × binary {true, false} ×
+weight_decay {5e-4, 0} × epochs {50, 200}. Binary indicators cap AIFB at
+~0.82; predicate **counts** (still fully interpretable: "number of
+publications") with directions [out,in], hidden 32, epochs 200, wd 0 reach
+AIFB ≈ 0.93 and MUTAG ≈ 0.75 (probe seeds). Chosen for both datasets and
+frozen in `configs/{aifb,mutag}.yaml`; 5-seed DoD gates enforced by the slow
+tests in `tests/test_training.py`.
+
 ## ADR-005 (2026-08-31) — Canonicalise blank nodes with rdflib RGDA1
 
 AIFB contains 152 blank nodes whose ids rdflib regenerates on every parse,

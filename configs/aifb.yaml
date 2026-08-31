@@ -1,0 +1,21 @@
+dataset: aifb
+feature_space:
+  kind: predicate
+  directions: [out, in]
+  binary: false
+  min_support: 5
+model:
+  hidden_dim: 32
+  num_bases: 30
+  dropout: 0.0
+training:
+  epochs: 200
+  lr: 0.01
+  weight_decay: 0.0
+  seeds: [0, 1, 2, 3, 4]
+graphlime:
+  hops: 2
+  rho: 0.1
+  kernel: rbf
+  sigma: null
+  min_neighborhood: 10
