@@ -29,6 +29,38 @@ defines fidelity as column masking on the interpretable feature matrix, so
 and `edge_type` forwarding stops being an issue outside the GNNExplainer
 baseline).
 
+## ADR-009 (2026-08-31) — Synthetic gate uses out-only features so column masking measures the mechanism
+
+With [out,in] features the R-GCN classified synthetic entities through the
+*object* node's `in:p7` count carried by the p7-typed message: masking the
+entity's own `out:p7` column left predictions intact (fid+ gap ≈ 0.003,
+noise-level) even though GraphLIME correctly ranked `out:p7` first.
+Diagnosed via `scripts/debug_fidelity.py`. Fix is in the testbed, not the
+threshold: `configs/synthetic.yaml` now uses `directions: [out]`, making
+object rows all-zero so the class signal must flow through the entity's own
+feature column — exactly what column-masking fidelity measures. Post-fix:
+class-1 fid+ 0.20 vs random 0.06; gate and margin (0.05) unchanged, passing.
+
+## ADR-007 (2026-08-31) — GNNExplainer baseline uses the attribute mask, not edge masks
+
+PyG's explainer installs a full-graph edge mask on every MessagePassing
+module, but `RGCNConv` runs one propagate per relation on edge *subsets* —
+the sizes can never match (verified: AssertionError inside
+`message_passing.py`; known upstream limitation). Rather than reimplementing
+R-GCN or silently dropping the baseline, GNNExplainer learns its **attribute
+mask** over the same interpretable feature matrix, scoring exactly the
+features GraphLIME scores; rankings are aggregated per predicate for the
+agreement metric. Tighter comparison, honest mechanics.
+
+## ADR-008 (2026-08-31) — GraphLIME neighbourhood cap with deterministic subsampling
+
+k-hop neighbourhoods of hub nodes reach thousands of nodes and the HSIC Lasso
+design matrix has n² rows. Above `max_neighborhood` (default 200) we
+subsample without replacement with an RNG seeded by the target node id
+(target always kept) — deterministic per node across runs. Constant feature
+columns within the sample are skipped in the solver (their β is provably 0)
+and scattered back, keeping output length equal to the vocabulary size.
+
 ## ADR-006 (2026-08-31) — Hyperparameter choice from the fixed M3 grid
 
 Grid explored (scratch runs, `scripts/grid_m3.py` + `scripts/probe_m3.py`):
