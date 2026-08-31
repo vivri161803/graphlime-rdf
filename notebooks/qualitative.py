@@ -38,11 +38,23 @@ def short(term: str) -> str:
 
 
 def explain_examples(dataset: str) -> None:
+    """Sentence-form explanations in feature space B: predicate *toward* term.
+
+    The model input stays space A (its own vocabulary, verified by hash);
+    GraphLIME regresses on the richer (p,o)-pair features, which is exactly
+    the feature-space flexibility measured in the agreement experiment.
+    """
     ckpt = load_checkpoint(REPO / "checkpoints" / f"{dataset}_best.pt")
     cfg = ckpt.manifest.resolved_config
     graph = load_rdf_graph(dataset, root=REPO / "data")
     x, vocabulary = build_features(graph, cfg.feature_space)
     assert vocabulary.hash == ckpt.manifest.vocabulary_hash
+    space_b = cfg.feature_space.model_copy(update={"kind": "predicate_object"})
+    xb, vocab_b = build_features(graph, space_b)
+    # Qualitative display: gentler regularisation than the quantitative runs
+    # (rho=0.1 in results/) so the sparser (p,o) features surface; stated here
+    # openly — the recorded metrics never use this value.
+    gl_cfg = cfg.graphlime.model_copy(update={"rho": 0.01})
     edge_index, edge_type = graph.doubled_edges()
     probs = ckpt.model.predict_proba(x, edge_index, edge_type)
     label_names = {i: name for name, i in ckpt.label_map.items()}
@@ -50,7 +62,8 @@ def explain_examples(dataset: str) -> None:
     shown = 0
     for node in sorted(int(i) for i in graph.test_mask.nonzero().flatten()):
         out = explain_node(
-            ckpt.model, node, x, edge_index, edge_type, vocabulary, cfg.graphlime
+            ckpt.model, node, x, edge_index, edge_type, vocab_b, gl_cfg,
+            interpretable_x=xb,
         )
         if not isinstance(out, Explanation):
             print(f"— node {node}: refused ({out.reason})\n")
@@ -63,7 +76,7 @@ def explain_examples(dataset: str) -> None:
             f"({'outgoing' if name.startswith('out:') else 'incoming'}, β={beta:.2f})"
             + (f" toward {short(name.split('=', 1)[1])}" if "=" in name else "")
             for name, beta in top
-        )
+        ) or f"no feature selected at ρ={gl_cfg.rho} (locally uniform prediction)"
         print(
             f"{graph.dataset.upper()} node {node} — {short(graph.node_names[node])}\n"
             f"  {correct} predicted {short(label_names[predicted])} "

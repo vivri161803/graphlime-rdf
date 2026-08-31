@@ -39,6 +39,19 @@ def train(
     graph = load_rdf_graph(cfg.dataset)
     base = Path("runs") / ("final" if final else "scratch")
 
+    if final and base.exists():
+        # Idempotent repro: one set of final runs per dataset — a rerun
+        # replaces the previous audit trail instead of double-counting it
+        # in the tables (run ids are timestamped).
+        import shutil
+
+        from graphlime_rdf.config import RunManifest
+
+        for manifest_path in base.glob("*/manifest.json"):
+            old = RunManifest.model_validate_json(manifest_path.read_text())
+            if old.dataset == cfg.dataset:
+                shutil.rmtree(manifest_path.parent)
+
     results = []
     for seed in cfg.training.seeds:
         result = train_run(graph, cfg, seed)
