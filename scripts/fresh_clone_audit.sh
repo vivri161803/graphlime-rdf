@@ -17,6 +17,6 @@ just check
 
 echo "=== load-and-explain from committed checkpoint (no retraining) ==="
 uv run python -m graphlime_rdf.cli load-and-explain \
-    --checkpoint checkpoints/aifb_best.pt --node 5766 --top 5
+    --checkpoint checkpoints/aifb_best.pt --node 5000 --top 5
 
 echo "=== AUDIT PASSED ==="
