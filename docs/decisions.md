@@ -98,3 +98,32 @@ does, where to find what, and how to run it, closing with links to
 `reporting/readme.py` therefore injects into `report/relazione.md` alone;
 `inject()` still raises on a document missing its markers, so the report can
 never silently stop being refreshed.
+
+## ADR-011 (2026-09-01) — The qualitative notebook becomes the live demo
+
+`notebooks/qualitative.py` printed sentence-form explanations and nothing
+else, which made it a results appendix rather than something anyone could
+present. It now walks the project's whole argument in order — the RDF entity
+with no feature vector, the manufactured feature space, the vocabulary-hash
+identity between model input and explanation output, one explanation end to
+end, fidelity/stability/baseline checks on that same node, the synthetic gate
+replayed live, the qualitative gallery, and finally the generated tables and
+figures — so that it can be run in front of an audience before the slide deck.
+Two constraints kept it honest: it composes only functions that already exist
+in `src/` (the notebook adds display glue, never method), and it retrains
+nothing on AIFB/MUTAG, loading `checkpoints/<dataset>_best.pt` instead. The
+worked example is the *first* AIFB test entity, stated as such, not a
+cherry-picked one; where its output is uninformative — a node saturated at
+p = 1.00 flattens fidelity+, and GNNExplainer's mask ties most predicates at
+zero — the notebook says so and defers to the aggregates in §10 rather than
+choosing a friendlier node. Total runtime ≈ 40 s, of which ~22 s is the
+baseline cell.
+
+## ADR-012 (2026-09-01) — `ipywidgets` in the dev group
+
+Importing `torch_geometric` pulls in `tqdm.auto`, which warns `IProgress not
+found` on every first cell run inside a Jupyter kernel because the widget
+frontend was missing from the environment. The warning is cosmetic but it is
+the first thing an audience sees in a demo. `ipywidgets>=8.1` is now a dev
+dependency; no source change was needed.
+
