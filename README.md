@@ -57,7 +57,7 @@ Start here depending on what you are after:
 | see the maths exactly as implemented | [`docs/method.md`](docs/method.md) |
 | understand the module layout and data flow | [`docs/architecture.md`](docs/architecture.md) |
 | know why something was done that way | [`docs/decisions.md`](docs/decisions.md) |
-| watch the whole argument run live | [`notebooks/qualitative.html`](notebooks/qualitative.html) |
+| see a short live demo | [`notebooks/qualitative.html`](notebooks/qualitative.html) |
 | reproduce every number | [`just repro`](#reproducing-everything) |
 | explain a node without training | [`load-and-explain`](#use-the-committed-checkpoints-no-training) |
 
@@ -104,7 +104,7 @@ docs/               method.md, architecture.md, decisions.md (ADRs),
                     api-notes.md
 report/             relazione.md + relazione.pdf — the full report
                     presentazione.tex + presentazione.pdf — the slide deck
-notebooks/          the live demo (.py source, executed .ipynb, rendered .html)
+notebooks/          the demo notebook (.py source, executed .ipynb, .html)
 
 results/            validated JSONL records, generated tables/ and figures/
 runs/final/         training audit trail (manifest, config, epochs.csv per run)
@@ -180,7 +180,7 @@ then injected from those tables by `just readme`; none is typed by hand.
 just render
 ```
 
-Re-executes the demo notebook and renders it to HTML (~40 s).
+Re-executes the demo notebook and renders it to HTML (~15 s).
 
 ```bash
 just pdf
@@ -199,16 +199,16 @@ distribution).
 - **[`report/presentazione.pdf`](report/presentazione.pdf)** — 26-slide
   executive summary of the same material. Source:
   [`report/presentazione.tex`](report/presentazione.tex).
-- **[`notebooks/qualitative.html`](notebooks/qualitative.html)** — the live
-  demo: the problem, the manufactured feature space, one explanation built end
-  to end, fidelity/stability/baseline checks, the synthetic correctness gate
-  and the recorded results, all recomputed from the committed checkpoints.
-  Source: [`notebooks/qualitative.py`](notebooks/qualitative.py); rebuild with
+- **[`notebooks/qualitative.html`](notebooks/qualitative.html)** — a short
+  live demo in four steps: an RDF entity has no features, we build them from
+  the graph, the method recovers a planted ground truth, and the explanations
+  on AIFB/MUTAG read as sentences. Source:
+  [`notebooks/qualitative.py`](notebooks/qualitative.py); rebuild with
   `just render`.
 
 The report is the thorough treatment; the slides summarise it and are not a
-substitute for it. The notebook is the demo that precedes them: it is meant to
-be run in front of an audience before the first slide.
+substitute for it. The notebook explains nothing — it is the demo run before
+the first slide, to show the thing working.
 
 ## Bibliography
 
